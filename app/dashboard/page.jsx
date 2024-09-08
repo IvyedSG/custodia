@@ -6,9 +6,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Sparkles, Box, Activity, Menu } from 'lucide-react'
-import Lockers from '../register/lockers'
-import LockerStatusTable from '../register/lockerStatusTable'
-import UserActivity from '../register/userActivity'
+import Lockers from '../pages/lockers/lockers'
+import LockerStatusTable from '../pages/lockerStatusTable/lockerStatusTable'
+import UserActivity from '../pages/userActivity/userActivity'
 import ServiceSelectionDialog from '../ServiceSelectionDialog'
 
 export default function Custodia() {
