@@ -3,8 +3,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import LockerButton from './components/LockerButton';
-import LockerGrid from './components/LockerGrid';
-
 
 export default function LockerGrid({ lockers, onLockerClick }) {
   return (
