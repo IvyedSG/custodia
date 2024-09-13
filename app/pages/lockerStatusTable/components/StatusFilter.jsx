@@ -5,9 +5,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 export default function StatusFilter({ filter, setFilter }) {
   return (
-    <div className="mb-4 flex justify-end">
+    <div className="flex justify-end">
       <Select value={filter} onValueChange={setFilter}>
-        <SelectTrigger className="w-[180px] bg-white">
+        <SelectTrigger className="w-[180px] bg-white border-purple-300 text-purple-700">
           <SelectValue placeholder="Filter by status" />
         </SelectTrigger>
         <SelectContent>

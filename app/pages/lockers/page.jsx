@@ -1,30 +1,55 @@
 'use client'
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import LockerButton from './components/LockerButton';
+import LockerGrid from './components/LockerGrid';
+import LockerDialog from './components/LockerDialog';
 
-export default function LockerGrid({ lockers, onLockerClick }) {
+const TOTAL_LOCKERS = 24;
+
+export default function Lockers() {
+  const [lockers, setLockers] = useState([]);
+  const [selectedLocker, setSelectedLocker] = useState(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  useEffect(() => {
+    const initialLockers = Array(TOTAL_LOCKERS).fill().map(() => ({
+      status: 'empty',
+      items: []
+    }));
+    setLockers(initialLockers);
+  }, []);
+
+  const handleLockerClick = (index) => {
+    setSelectedLocker(index);
+    setIsDialogOpen(true);
+  };
+
+  const handleUpdateLocker = (updatedItems) => {
+    if (selectedLocker !== null) {
+      const newLockers = [...lockers];
+      newLockers[selectedLocker].items = updatedItems;
+      newLockers[selectedLocker].status = updatedItems.length > 0 ? 'occupied' : 'empty';
+      setLockers(newLockers);
+      setIsDialogOpen(false);
+    }
+  };
+
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-      {lockers && Array.isArray(lockers) ? (
-        lockers.map((locker, index) => (
-          <motion.div
-            key={index}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <LockerButton 
-              locker={locker} 
-              index={index} 
-              onClick={() => onLockerClick(index)} 
-            />
-          </motion.div>
-        ))
-      ) : (
-        <p>No lockers available.</p>
-      )}
-    </div>
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="w-full p-4"
+    >
+      <LockerGrid lockers={lockers} onLockerClick={handleLockerClick} />
+      <LockerDialog 
+        isOpen={isDialogOpen}
+        setIsOpen={setIsDialogOpen}
+        locker={selectedLocker !== null ? lockers[selectedLocker] : null}
+        lockerNumber={selectedLocker !== null ? selectedLocker + 1 : null}
+        onUpdateLocker={handleUpdateLocker}
+      />
+    </motion.div>
   );
-  
 }

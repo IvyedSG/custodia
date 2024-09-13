@@ -5,8 +5,8 @@ import { motion } from 'framer-motion'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
 import { Box, Activity, Menu } from 'lucide-react'
-import Lockers from '../../pages/lockers/components/LockerGrid'
-import LockerStatusTable from '../../pages/lockerStatusTable/components/LockerTable'
+import Lockers from '../../pages/lockers/page'
+import LockerStatusTable from '../../pages/lockerStatusTable/page'
 import UserActivity from '../../pages/userActivity/userActivity'
 
 const tabIcons = {
@@ -21,12 +21,12 @@ export default function CustodiaContent() {
   return (
     <Card className="max-w-7xl mx-auto bg-white/80 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden border-2 border-purple-200">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="w-full grid grid-cols-3 bg-purple-100">
+        <TabsList className="w-full grid grid-cols-3 bg-purple-100 border-b-2 border-purple-200">
           {['lockers', 'status', 'activity'].map((tab) => (
             <TabsTrigger 
               key={tab} 
               value={tab}
-              className="py-3 data-[state=active]:bg-white data-[state=active]:text-purple-700 transition-all duration-300 ease-in-out"
+              className="py-2 px-4 data-[state=active]:bg-white data-[state=active]:text-purple-700 transition-all duration-300 ease-in-out border-r border-purple-200 last:border-r-0"
             >
               <div className="flex items-center space-x-2">
                 {tabIcons[tab]}
@@ -35,7 +35,7 @@ export default function CustodiaContent() {
             </TabsTrigger>
           ))}
         </TabsList>
-        <CardContent className="p-6">
+        <CardContent className="p-4"> {/* Ajuste de padding para reducir espacio */}
           <TabsContent value="lockers">
             <motion.div
               initial={{ opacity: 0 }}
