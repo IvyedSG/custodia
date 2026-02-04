@@ -21,6 +21,11 @@ const AUTH_KEY = 'logistics_auth_user';
 
 export const useAuth = () => {
   const router = useRouter();
+  const authCookie = useCookie<UserInfo | null>(AUTH_KEY, {
+    maxAge: 60 * 60 * 24 * 7, // 1 semana
+    path: '/',
+    sameSite: 'lax',
+  });
 
   const login = async (credentials: LoginCredentials): Promise<LoginResponse> => {
     const user = store.users.find(u => 
@@ -35,9 +40,7 @@ export const useAuth = () => {
         role: user.role || 'USER',
       };
       
-      if (typeof window !== 'undefined') {
-        localStorage.setItem(AUTH_KEY, JSON.stringify(userInfo));
-      }
+      authCookie.value = userInfo;
       return { success: true, message: 'Sesión iniciada' };
     }
 
@@ -45,22 +48,16 @@ export const useAuth = () => {
   };
 
   const logout = async () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem(AUTH_KEY);
-    }
+    authCookie.value = null;
     await router.push('/login');
   };
 
   const getCurrentUser = (): UserInfo | null => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem(AUTH_KEY);
-      return saved ? JSON.parse(saved) : null;
-    }
-    return null;
+    return authCookie.value || null;
   };
 
   const isAuthenticated = (): boolean => {
-    return getCurrentUser() !== null;
+    return !!authCookie.value;
   };
 
   return {
