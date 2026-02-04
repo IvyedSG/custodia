@@ -1,6 +1,4 @@
 export default defineNuxtRouteMiddleware((to) => {
-  if (import.meta.server) return
-
   const { isAuthenticated } = useAuth()
   const isLoginPage = to.path === '/login'
   const authenticated = isAuthenticated()
